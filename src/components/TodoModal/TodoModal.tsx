@@ -15,8 +15,8 @@ export const TodoModal: React.FC<Props> = ({
   onChangeShowModal,
   onChangeTodoId,
 }) => {
-  const [modalLoadin, setModalLoadin] = useState(true);
-  const [user, setUser] = useState(null);
+  const [modalLoading, setModalLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     if (!todo) {
@@ -24,7 +24,7 @@ export const TodoModal: React.FC<Props> = ({
     }
 
     getUser(todo.userId)
-      .then((userFromServer: User | null) => {
+      .then(userFromServer => {
         if (!userFromServer) {
           throw new Error('Got no user please try again later');
         }
@@ -35,14 +35,14 @@ export const TodoModal: React.FC<Props> = ({
 
         setUser(userFromServer);
       })
-      .finally(() => setModalLoadin(false));
-  }, [todo]);
+      .finally(() => setModalLoading(false));
+  }, [todo, user]);
 
   return (
     <div className="modal is-active" data-cy="modal">
       <div className="modal-background" />
 
-      {modalLoadin ? (
+      {modalLoading ? (
         <Loader />
       ) : (
         <div className="modal-card">
@@ -79,7 +79,7 @@ export const TodoModal: React.FC<Props> = ({
 
               {' by '}
 
-              <a href="mailto:Sincere@april.biz">{user.name}</a>
+              <a href={`mailto:${user?.email}`}>{user?.name}</a>
             </p>
           </div>
         </div>
