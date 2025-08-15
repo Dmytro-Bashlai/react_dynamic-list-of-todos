@@ -11,6 +11,12 @@ import { TodoFilter } from './components/TodoFilter';
 import { TodoModal } from './components/TodoModal';
 import { Loader } from './components/Loader';
 
+export enum Status {
+  All = 'all',
+  Active = 'active',
+  Completed = 'completed',
+}
+
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(false);
@@ -19,7 +25,7 @@ export const App: React.FC = () => {
   const [todo, setTodo] = useState<Todo | null>(null);
   const [selectedTodoId, setSelectedTodoId] = useState<number | null>(null);
 
-  const [status, setStatus] = useState('all');
+  const [status, setStatus] = useState(Status.All);
   const [input, setInput] = useState('');
 
   useEffect(() => {
@@ -37,9 +43,9 @@ export const App: React.FC = () => {
         .includes(input.toLowerCase());
 
       const matchesStatus =
-        (status === 'completed' && currentTodo.completed) ||
-        (status === 'active' && !currentTodo.completed) ||
-        status === 'all';
+        (status === Status.Completed && currentTodo.completed) ||
+        (status === Status.Active && !currentTodo.completed) ||
+        status === Status.All;
 
       return input ? matchesInput && matchesStatus : matchesStatus;
     });

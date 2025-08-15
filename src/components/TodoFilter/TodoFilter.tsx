@@ -1,7 +1,9 @@
+import { Status } from '../../App';
+
 type Props = {
   status: string;
   input: string;
-  onChangeStatus: (value: string) => void;
+  onChangeStatus: (value: Status) => void;
   onChangeInput: (value: string) => void;
 };
 
